@@ -1,0 +1,26 @@
+---
+layout: post
+title: "MacOSX修改sudo的环境变量"
+date: 2013-09-15 21:23
+comments: true
+categories: mac 
+---
+
+最近在使用Go语言时, 发现sudo时, 有些环境变量sudo时无法继承
+
+比如, `sudo go env`时, 发现GOPATH等环境变量都没有设置的, 经过尝试, 找到有效的方法是:
+
+在/etc/sudoers里:
+
+```sh 
+Defaults    env_keep += "BLOCKSIZE"
+Defaults    env_keep += "COLORFGBG COLORTERM"
+...
+//Add this line:
+Defaults    env_keep += "GOPATH"
+```
+
+这样, GOPATH的环境变量, 在sudo时, 就可以从当前环境中继承下来了.
+
+
+
