@@ -1,0 +1,11 @@
+# Site settings
+title: 闻志
+email: semicircle21@google.com
+description: 程序与旅行
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://semicircle.github.io" # the base hostname & protocol for your site
+twitter_username: semicircle21
+github_username:  semicircle
+
+# Build settings
+markdown: kramdown
