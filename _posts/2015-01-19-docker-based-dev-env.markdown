@@ -44,7 +44,7 @@ categories: docker
 
 ###### 环境不兼容问题
 
-最初我想配置 Vagrantup + Rails 环境时, 在 google 中搜索 `vagrant rails` 的结果, 按照出现在第一位的教程走一遍, 结果遇到莫名其妙的错误, 在探索了一段时间以后, 找到是 rbenv / chef 的兼容问题. (我的评论信息: [https://gorails.com/guides/using-vagrant-for-rails-development#comment-1759266752] ) 此外, 这个教程讲述的方法里, 还有 mysql 版本的问题, 看评论是半年前就已经存在的问题了.
+最初我想配置 Vagrantup + Rails 环境时, 在 google 中搜索 `vagrant rails` 的结果, 按照出现在第一位的教程走一遍, 结果遇到莫名其妙的错误, 在探索了一段时间以后, 找到是 rbenv / chef 的兼容问题. [具体情况见我的评论信息](https://gorails.com/guides/using-vagrant-for-rails-development#comment-1759266752) 此外, 这个教程讲述的方法里, 还有 mysql 版本的问题, 看评论是半年前就已经存在的问题了.
 
 ###### 很多看起来区别不大的轮子
 
@@ -81,7 +81,7 @@ Dockerfile 用来创建 Image, 通过命令行 docker run 来启动Image, 形成
 
 Dockerfile是创建Image的脚本:
 
-```
+``` Dockerfile
 FROM ubuntu
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
@@ -126,7 +126,7 @@ docker ps -a 查询所有的, 包括结束的 -> 可以被commit成image.
 
 请创建一个一行脚本专门用来启动各个环境
 
-```
+``` sh
 docker run -it -v $PWD/workspace:/workspace -p 3000:3000 --link some_postgres:postgres --link sunspot_solr:solr my_repo:5000/rails bash
 ```
 
@@ -146,7 +146,7 @@ docker run -it -v $PWD/workspace:/workspace -p 3000:3000 --link some_postgres:po
 要是使用国内的第三方服务, 被爆菊真的没关系吗?
 所以, 最终的规避方法是: 在本地创建private registry, 其他服务器通过ssh反向隧道来连接到本地的private registry. 而private registry本身是最简单的版本:  直接pull 一个 samalba/docker-registry 下来, 先用着...
 
-```
+``` sh
 $ docker pull samalba/docker-registry
 $ docker run -d -p 5000:5000 samalba/docker-registry
 ```

@@ -8,4 +8,5 @@ twitter_username: semicircle21
 github_username:  semicircle
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
+permalink: /blog/:year/:month/:day/:title/

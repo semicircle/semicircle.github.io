@@ -37,6 +37,7 @@ Hints:
 
 ### Add cordova.js in app.json
 
+
 ``` json app.json
     "js": [
         {
