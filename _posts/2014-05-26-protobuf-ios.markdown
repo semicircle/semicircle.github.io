@@ -8,7 +8,7 @@ categories: iOS Mac OSX Protobuf ObjC
 
 在Apple的软件栈中, 指的就是以ObjC为基础, 衍生出的一系列软件栈了. 由于既有项目需要, 使用了Google Protocol Buffer定义了数据信令, 与之前使用其他语言简单轻松的经历不同, 到了ObjC这里, 发现在这个领域, 没有ObjC的...
 
-这篇一直搁置到11月, 因为迄今为止在 ObjC + Protobuf 的领域,  github 上的 protobuf-objc[https://github.com/booyah/protobuf-objc] 项目, 在原作者不管以后, 尚未出现一统江湖的 fork.
+这篇一直搁置到11月, 因为迄今为止在 ObjC + Protobuf 的领域,  github 上的 [protobuf-objc](https://github.com/booyah/protobuf-objc) 项目, 在原作者不管以后, 尚未出现一统江湖的 fork.
 
 我用的 epreston 的版本, 帮着他修了几个小 bug, 然后他也不管了...
 

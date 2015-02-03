@@ -10,13 +10,17 @@ categories: docker
 
 为什么要写 Docker
 
-### 近况
+#### 近况
 
 首先, 从这大半年的时间没有更新博客说起, 因为之前不小心破坏了 gem / bundle 的环境, octopress 全线罢工. 又由于一直没有用 ruby / rails 开发的任务, 也就没有尝试恢复. 
 
-某次从 Twitter 上看到一句被广为转播的话, 大意是: If you can't setup your develop environment in a single command, then you're working in a prototype. 那一次, 又感到自己土鳖了...
+有一天, 我从 Twitter 上看到一句被广为转推的话, 大意是: 
 
-### Docker 的意外收获
+> If you can't setup your develop environment in one single command, then you're working on a prototype. 
+
+那一夜, 我深深的失眠了...
+
+#### Docker 的意外收获
 
 之前, 由于一直使用 go 编写服务器端, 所以关注到了 Docker 这个 go 社区里的明星, 并稍微学习了一下. 没想到后来意外收获让我始料不及.
 
@@ -29,6 +33,7 @@ categories: docker
 - Gitlab 谁装谁知道这玩意多 tm 难伺候!!
 	
 同时, 借助 Docker 的功能, 我还创建了一些工作环境:
+
 - Protobuf编译, 
 - Thrift编译, Mac下一直编译不过, 用一个干净的
 - Rails
@@ -36,25 +41,25 @@ categories: docker
 
 这些使用 Docker 的应用过程值得总结一下.
 
-### VagrantUp 的不足之处
+#### VagrantUp 的不足之处
 
 首先要承认我不是资深的 ruby 程序员, 所以对 ruby 整套软件栈并不是太熟悉. 缺少一些属于 ruby 社区的 common sense.
 
 但是, 我觉得我的批判应该还是准确的, 因为我所批评的, 都还是一些 "基础" / "入门" 的环境配置过程中产生和发现的问题:
 
-###### 环境不兼容问题
+**环境不兼容问题**
 
 最初我想配置 Vagrantup + Rails 环境时, 在 google 中搜索 `vagrant rails` 的结果, 按照出现在第一位的教程走一遍, 结果遇到莫名其妙的错误, 在探索了一段时间以后, 找到是 rbenv / chef 的兼容问题. [具体情况见我的评论信息](https://gorails.com/guides/using-vagrant-for-rails-development#comment-1759266752) 此外, 这个教程讲述的方法里, 还有 mysql 版本的问题, 看评论是半年前就已经存在的问题了.
 
-###### 很多看起来区别不大的轮子
+**很多看起来区别不大的轮子**
 
 这里面说的其实是 chef / chef_cookbook / chef_solo 等等许多用来 "发布" / "监控" / "自动化配置" (provisioning) / "集群管理" 的工具. 我花了很长时间, 弄不清这些东西的区别, 及他们各自解决的问题. 我100%的认可他们各自是有各自的用途的, 而且对于"专业"的ruby/devop工程师, 应该是清楚他们的作用的, 但对于入门, 只是想用 Vagrant 搭建dev环境的人而言, 这些东西显得太重了.
 
-###### 到处都是脚本
+**到处都是脚本**
 
 脚本就是程序, 程序就是会升级, 升级就是会出现不兼容(特别 ruby 还是如此动态灵活的语言).
 
-###### 不就是想用 VagrantUp 搭个 dev 环境吗? 扯那么多干啥.
+**不就是想用 VagrantUp 搭个 dev 环境吗? 扯那么多干啥.**
 
 问题就在于此, 如果你不明白 chef cookbook solo 等一大堆名词, 你就无法愉快的用 VagrantUp 玩耍, 比如你想在 dev 环境安装 postgresql, 你就要懂得 solo 什么的脚本, 否则, 一个 vagrant destroy命令, 你搭建的环境就灰飞烟灭了, 你无法用 vagrant up 一个命令重建起来, 那么你还是在一个原型里编程, 一切都还是那么low. 
 
@@ -66,17 +71,18 @@ categories: docker
 - 如果你已经熟悉了 Docker 的一般操作, 前半部分可能稍显枯燥, 后半部分有我的心得, 说不定你能有所收获. (还有可能你会觉得我是个sb..)
 - 正确的姿势是, 请把这些内容当小说.
 
-### 集装箱的类比
+**集装箱的类比**
 
 在远洋运输业出现集装箱以前, 货物在港口装船的码放与装卸是非常令人头痛的问题. 要考虑到货物的形状, 重量与船的平衡, 多个港口的到达顺序等等. 往往装船过程需要很多时间, 占用码头不说, 货物也会有很多损耗. 在集装箱出现以后, 各种奇形怪状的货物都被要求装入集装箱, 这让港口的装卸货效率得到大幅提升, 将航运业的生产效率提升了一个档次.
 
 Docker 就是希望成为服务器软件航运业(软件集成+部署)的集装箱, 任何服务与软件都装入 Docker 提供的 Container 中, 包括软件本身和他所依赖的运行环境, 只暴露出对外服务的网络端口, 以此来实现生产效率的提高.
 
-### Dockerfile / Image / Container
+**Dockerfile / Image / Container**
 
 Dockerfile / Image / Container 是构成 Docker 技术的基本元素: 
 
-###### 什么是?
+**什么是...?**
+
 Dockerfile 用来创建 Image, 通过命令行 docker run 来启动Image, 形成Container.
 
 Dockerfile是创建Image的脚本:
@@ -97,7 +103,7 @@ container 可以通过commit, 转换称为image?
 通过 docker ps 查询系统内正在运行的 container,  
 docker ps -a 查询所有的, 包括结束的 -> 可以被commit成image.
 
-###### 为什么?
+**为什么?**
 
 要理解为什么会有Dockerfile / Image / Container的设计, 可以按照这个思路想: 
 
@@ -111,9 +117,9 @@ docker ps -a 查询所有的, 包括结束的 -> 可以被commit成image.
 
 到这里, 囫囵吞枣式简介就已经完成了.
 
-# 我是如何搭建环境的
+# 如何搭建环境的
 
-### 纯手工搭建一套运行环境
+#### 纯手工搭建一套运行环境
 
 任何想依赖一套脚本达到运行环境的, 比起从shell敲命令的初学者方式, 都是要费更多时间的. 所以, 通过 `docker run -it ubuntu bash` 为起点, 你可以在15分钟内搭建起任何一种主流开发技术的初学者环境. 
 
@@ -122,7 +128,7 @@ docker ps -a 查询所有的, 包括结束的 -> 可以被commit成image.
 创建完环境和每次修改后, 别忘了 commit 环境到 image.
 
 
-### 每次启动你的环境
+#### 每次启动你的环境
 
 请创建一个一行脚本专门用来启动各个环境
 
@@ -136,33 +142,30 @@ docker run -it -v $PWD/workspace:/workspace -p 3000:3000 --link some_postgres:po
 2. -p 3000:3000 这是 rails 的服务端口
 3. --link some_postgres:postgres 我使用了 postgresql 服务, 这里需要另起一个 postgres 的 image / container, 直接是官方的镜像.
 4. --link sunspot_solr:solr 我使用了 solr 服务, 不是官方的, 但也是 Public Repo 里直接下载的.
-5. my_repo:5000/rails 这里 my_repo 就是我自己的 private registry. 下面会专门讲到这里.
+5. my_repo:5000/rails 这里 my_repo 就是我自己的 private registry. 下面一节会专门讲到这里.
 
-### 备份/分享你的环境
+#### 备份/分享你的环境
 
-根据docker标准的用法, index服务和registry服务, 都是公共的.
-但现实是GFW的存在, 导致几乎完全无法正常访问registry. 所以必须创建private registry.
-而private registry的位置又成了问题, 因为从墙外访问墙内的服务器, 也会不稳定.
-要是使用国内的第三方服务, 被爆菊真的没关系吗?
-所以, 最终的规避方法是: 在本地创建private registry, 其他服务器通过ssh反向隧道来连接到本地的private registry. 而private registry本身是最简单的版本:  直接pull 一个 samalba/docker-registry 下来, 先用着...
+根据 docker 标准的用法, index 服务和 registry 服务, 都是公共的.但现实是GFW的存在, 导致几乎完全无法正常访问 registry. 
+
+所以必须创建 private registry.而 private registry 的位置又成了问题, 因为从墙外访问墙内的服务器, 也会不稳定.
+
+要是使用国内的第三方服务, 你先要问问自己的菊花, 被爆了真的大丈夫?
+
+所以, 最终的规避方法是: 在本地创建 private registry, 其他服务器通过ssh反向隧道来连接到本地的 private registry. 而 private registry本身是最简单的版本:  直接 pull 一个 samalba/docker-registry 下来, 先用着...
 
 ``` sh
 $ docker pull samalba/docker-registry
 $ docker run -d -p 5000:5000 samalba/docker-registry
 ```
 
-其实这里还有一个问题, 就是早期的 Docker 并不强制使用 https, 而是使用http下载, 这其实是存在安全隐患的, 这里使用反响隧道, 也保证了安全性.
+其实这里还有一个问题, 就是早期的 Docker 并不强制使用 https, 而是使用 http 下载, 这其实是存在安全隐患的, 这里使用反响隧道, 也保证了安全性.
 
-### 特别的注意事项: 绑定端口
+这里还要揭晓一下上文 my_repo 的地址, 对内网机器而言 my_repo 可以是内网中作为 docker repo 的机器, 对外网而言, 则是 127.0.0.1, 也就是说, 只有从内网某台机器打通反向隧道时, 这个下载链接才会生效, 外部服务器才有机会接触到位于内网的 docker repo 服务.
 
-很多本地调试的服务器程序, 比如 rails / octopress / jekyll, 他们 bind 的 host, 都可能是 127.0.0.1, 在 Docker 的 这种配置下, 从 Host machine 都会出现无法打开的问题, 需要特别的指出 0.0.0.0, 比如 `rails server -b 0.0.0.0`.
+#### 特别的注意事项: 绑定端口
 
-###　(此坑待填)
-
-1. 关于 Data volume 的正确理解与使用
-2. 在 Mac 使用 Boot2docker 的注意事项
-3. 如何处理敏感数据, 比如 ssh private keys.
-4. 哦哦哦~ 社会是~ 伤害的比赛~
+很多本地调试的服务器程序, 比如 rails / octopress / jekyll, 他们 bind 的 host, 都可能是 127.0.0.1, 在 Docker 的 这种配置下, 从 Host machine 都会出现无法打开的问题, 需要特别的指出 0.0.0.0, 比如启动 rails 调试的: `rails server -b 0.0.0.0`.
 
 # 结束
 
@@ -171,3 +174,11 @@ $ docker run -d -p 5000:5000 samalba/docker-registry
 
 这篇文章里的很多部分都是源自这大半年的工作笔记, 一直感觉必须要写点什么, 否则亏欠 Docker 良多啊..
 纵观我自己的笔记, 还有许多关于 Docker 的"奇技淫巧", 和其他篇的内容有所重叠, 暂时还没构思好如何呈现, 以后也许有机会再更新.
+
+#### TODO List:
+
+1. 关于 Data volume 的正确理解与使用
+2. 在 Mac 使用 Boot2docker 的注意事项
+3. 如何处理敏感数据, 比如 ssh private keys.
+4. 除了开发环境, 玩轮子的介绍呢?
+5. 哦哦哦~ 社会是~ 伤害的比赛~
