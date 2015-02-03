@@ -6,29 +6,31 @@ comments: true
 categories: thrift protobuf iOS ruby 
 ---
 
-# 什么是 Thrift
+####  什么是 Thrift
 
 > 也不知道谁规定的, 当写一篇技术分享博客的时候, 第一个大标题必须是"什么是XXX". 
 
 The Apache Thrift software framework, for scalable cross-language services development, combines a software stack with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, OCaml and Delphi and other languages.
 
-# 什么是爬坑行
+####  什么是爬坑行
 
 就是趟应用一个新技术时遇到的各种坑. Common pitfalls 用英文的话.
 
-# 时空座标
+####  时空座标
 
 既然是 爬坑, 那就具有一定的攻击性, 所以, 锁定座标很重要.
 
-### 软件版本
+**软件版本**
+
 1. thrift 0.9.2
 2. Mac OSX 10.9.X ~ 10.10.2
 
-### 时间区间
+**时间区间**
+
 2013.11.28 ~ 2015.2.3
 
 ---
-# 爬坑正式开始
+*那么前戏结束, 爬坑正式开始*
 
 # 1. 安装
 
@@ -70,8 +72,7 @@ The Apache Thrift software framework, for scalable cross-language services devel
 4. 有些库是以各种语言自带的包管理工具发布的, 比如 maven / gem / npm 等.
 
 > 注意: 不要混淆 *库* 和 *编译器支持的语言*
-
-比如: 即便用 Linux 环境编译的 Thrift, 其 Compiler 也是具有编译出 Cocoa 代码的能力的. (**是的, 就是这么跳脱!**)
+> 比如: 即便用 Linux 环境编译的 Thrift, 其 Compiler 也是具有编译出 Cocoa 代码的能力的. (**是的, 就是这么跳脱!**)
 
 **Protobuf 做得怎么样?**
 
@@ -79,7 +80,7 @@ Protobuf 面临相似的问题, 不过要简单许多: 只有3种语言, 运行�
 
 Protobuf 不愧为 Google 主导的项目, 在 Mac 上编译, 测试, 不会有任何问题.
 
-当然, 很多Protobuf的第三方语言支持, 做得都不怎么样. 比如, 之前我吐槽过的 iOS + Protobuf.
+当然, 很多 Protobuf 的第三方语言支持, 做得都不怎么样. 比如, 之前我吐槽过的 iOS + Protobuf.
 
 # 2. 编写接口文件
 
@@ -97,7 +98,7 @@ struct UserInfo {
 }
 
 struct ProfileInfo {
-	1: optional list<BlogInfo> createdBlogs,
+	1: optional list<BlogInfo> createdBlogs, // Compile error
 }
 
 struct BlogInfo {
@@ -107,7 +108,9 @@ struct BlogInfo {
 
 ```
 
-报错信息是: `1: optional list<BlogInfo> createdBlogs,` 这行里, 使用了未定义的 BlogInfo, 也就是说, 这里我们需要"前向声明"一下 BlogInfo. 问题来了:
+`Compile error` 这行里, 会报"使用了未定义的 BlogInfo"错误, 因为, BlogInfo 的定义晚于 ProfileInfo 定义.
+
+也就是说, 这里我们需要"前向声明"一下 BlogInfo. 那么, 问题来了:
 
 > Thrift 不支持前向声明
 
@@ -126,19 +129,19 @@ struct BlogInfo {
 
 这是, BlogInfo / UserInfo / ProfileInfo 三者之间相互引用, 构成了循环. 该怎么办?
 
-> 恭喜你, 成功的找到了 Thrift 的死穴.
+> 恭喜你, 成功的获得了<<发现 Thrift 的死穴>>的成就.
 
-不仅仅是 Thrift 的 Compiler 不支持, 目前 Compiler 生成的代码里, **有些**也是不能够被前向声明的. 举个例子: 如果是 C 语言, 那么在出现结构体嵌套时, 使用的是直接嵌套, 而不是指针. 这样, 即便 Thrift 的 Compiler 支持了前向声明, 那这种写法在 C 语言编译的时候, 也是非法的: 结构体不能直接嵌套.
+不仅仅是 Thrift 的 Compiler 不支持, 目前 Compiler 生成的代码里, **有些**也是不能够被前向声明的. 举个例子: 如果是 C 语言, 那么在出现结构体嵌套时, 使用的是直接嵌套, 而不是指针. 这样, 即便 Thrift 的 Compiler 支持了前向声明, 那这种写法在 C 语言编译的时候, 也是非法的: 结构体不能直接嵌套. (*这里只栗子, C实现我没看过, 不过ObjC是如此的*)
 
-这就意味着, 如果要添加这个特性, 至少所有静态语言的 Runtime Library 都要大改一番了.
+这就意味着, 如果要添加这个特性, 连带静态语言的 Runtime Library 也都要大改一番了.
 
 往好处设想:
 
 > This is a feature, it's by design, not a bug. (post @ 8:20
 
-也许是为了提升效率, 毕竟如果消息体很小, 从操作系统的内存管理机制来看, 反复 malloc 小块数据可能导致消息解析/组装性能严重下降. 如果想要提供这个特性, 则有必要在 Runtime Library 中添加配套的内存池技术, 才能获得出色的性能. 而就目前 Thrift 那些 Runtime 的现状而言, 添加这么复杂的特性属于强人所难. (等等! 我是不是说得太多了...
+也许是为了提升效率, 毕竟如果消息体很小, 从操作系统的内存管理机制来看, 反复 malloc 小块数据可能导致消息解析/组装性能严重下降. 如果想要提供这个特性, 则有必要在 Runtime Library 中添加配套的内存池技术, 才能获得出色的性能. 而就目前 Thrift 那些 Runtime 的现状而言, 能 compile 就谢天谢地了, 再添加这么复杂的特性属于强人所难. (等等! 我是不是说得太多了...
 
-**Protobuf 做得怎么样**
+**Protobuf 做得怎么样?**
 
 1. Protobuf 不需要前向声明, 可以递归嵌套.
 2. 据第三方测试: Protobuf 的解析速度, 比 Thrift 更快.
@@ -172,6 +175,7 @@ struct BlogInfo {
 - Thrift: 不需要, 咱们就是干白儿利落脆, 就是快
 - 众: 那万一超时了怪谁? 阻塞了 UI, 用户体验不能丝般顺滑了该怪谁?
 - Thrift: 那...那...那都是时辰的错!
+- 时辰: ...对不起
 
 (*其实我只用了 Cocoa 的Client Library, 大概并不客观*)
 
