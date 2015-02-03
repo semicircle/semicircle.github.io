@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "(提纲)基于标签组织的信息系统的实现方式"
+title: "基于标签组织的信息系统的实现方式(此坑待填)"
 date: 2015-01-19 08:28:46 +0000
 comments: true
 categories: 

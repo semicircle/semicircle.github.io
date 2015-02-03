@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "基于 Docker 的(轮子组装)开发环境(beta)"
+title: "基于 Docker 的(轮子组装)开发环境(有待完善)"
 date: 2015-01-19 07:53:25 +0000
 comments: true
 categories: docker
@@ -21,11 +21,12 @@ categories: docker
 之前, 由于一直使用 go 编写服务器端, 所以关注到了 Docker 这个 go 社区里的明星, 并稍微学习了一下. 没想到后来意外收获让我始料不及.
 
 这个意外收获就是 Docker Image Repo. 利用公开的 Docker 现成的 Image, 玩了很多轮子:
+
 - Shadowsocks, 我最后用的也就是一个别人的 Image.
 - Postgres,  用的官方的Image, 据说安装 Prostgres 是非常蛋疼的一件事.
 - Openstreemap 我自己安装两三天未果, docker image 下载下来即插即用.
 - Apache Solr 一般要先安装 Java.
-- Gitlab 谁装谁知道这玩意多 tm 难伺候.
+- Gitlab 谁装谁知道这玩意多 tm 难伺候!!
 	
 同时, 借助 Docker 的功能, 我还创建了一些工作环境:
 - Protobuf编译, 
@@ -130,6 +131,7 @@ docker run -it -v $PWD/workspace:/workspace -p 3000:3000 --link some_postgres:po
 ```
 
 解释:
+
 1. -v $PWD/workspace:/workspace 这是将当前路径下 workspace mount到了新启动的 container 的 workspace 下
 2. -p 3000:3000 这是 rails 的服务端口
 3. --link some_postgres:postgres 我使用了 postgresql 服务, 这里需要另起一个 postgres 的 image / container, 直接是官方的镜像.
@@ -154,6 +156,13 @@ $ docker run -d -p 5000:5000 samalba/docker-registry
 ### 特别的注意事项: 绑定端口
 
 很多本地调试的服务器程序, 比如 rails / octopress / jekyll, 他们 bind 的 host, 都可能是 127.0.0.1, 在 Docker 的 这种配置下, 从 Host machine 都会出现无法打开的问题, 需要特别的指出 0.0.0.0, 比如 `rails server -b 0.0.0.0`.
+
+###　(此坑待填)
+
+1. 关于 Data volume 的正确理解与使用
+2. 在 Mac 使用 Boot2docker 的注意事项
+3. 如何处理敏感数据, 比如 ssh private keys.
+4. 哦哦哦~ 社会是~ 伤害的比赛~
 
 # 结束
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "(提纲)Apache Thrift 爬坑行"
+title: "Apache Thrift 爬坑行(此坑待填)"
 date: 2015-01-19 08:16:53 +0000
 comments: true
 categories: thrift
