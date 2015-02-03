@@ -129,7 +129,7 @@ struct BlogInfo {
 
 这是, BlogInfo / UserInfo / ProfileInfo 三者之间相互引用, 构成了循环. 该怎么办?
 
-> 恭喜你, 成功的获得了<<发现 Thrift 的死穴>>的成就.
+> 恭喜您获得了 <<发现 Thrift 的死穴>> 成就.
 
 不仅仅是 Thrift 的 Compiler 不支持, 目前 Compiler 生成的代码里, **有些**也是不能够被前向声明的. 举个例子: 如果是 C 语言, 那么在出现结构体嵌套时, 使用的是直接嵌套, 而不是指针. 这样, 即便 Thrift 的 Compiler 支持了前向声明, 那这种写法在 C 语言编译的时候, 也是非法的: 结构体不能直接嵌套. (*这里只栗子, C实现我没看过, 不过ObjC是如此的*)
 
@@ -154,12 +154,12 @@ struct BlogInfo {
 
 1. Base : 只包含该对象相关的 Thrift 基础类型, list<string> 之类也算基础类型.
 2. Info : 包含该对象的 Base. 还有相关对象的 Base, 比如, BlogInfo 里 包含 `UserBase author`.
-3. Detail : 类似 Info, 和 Info 的区别是, Info 一般用于返回列表(多个对象)时使用, Detail 是获取单个对象时使用, 比如 getUserDetail时.
-4. Result : 有时有的接口 XxxDetail 和 list<XxxInfo> 的 形式都无法满足, 那就专门创建一个对应接口的 Result 结构.
+3. Detail : 类似 Info, 可以包含 Base 或 Info Level 的 struct. 与 Info 的区别是, Info 一般用于返回列表(多个对象)时使用, Detail 是获取单个对象时使用, 比如 getUserDetail时.
+4. Result : 有的接口返回 `XyzDetail` 或 `list<XyzInfo>` 的 形式都无法满足需求, 那就专门创建一个对应该接口的 AbcdResult 结构.
 
 应用了这套方法后, 基本满足了我的应用场景下的 API. 
 
-> 我时常也为定义这样愚蠢的DTO而感到苦恼, 但是, 考虑到不需要自己实现通信模块(PB), 还有那如丝般顺滑的调用体验, 想想心里还有点小激动呐~
+> 我时常也为定义这样愚蠢的DTO而感到苦恼, 但是, 考虑到不需要自己实现通信模块, 还有那如丝般顺滑的调用体验, 想想心里还有点小激动呐~
 
 # 3. Client编程
 
