@@ -59,6 +59,8 @@ categories: docker
 
 脚本就是程序, 程序就是会升级, 升级就是会出现不兼容(特别 ruby 还是如此动态灵活的语言).
 
+> 在 Ruby 的世界里, 这些脚本大概是叫做 DSL 的.
+
 **不就是想用 VagrantUp 搭个 dev 环境吗? 扯那么多干啥.**
 
 问题就在于此, 如果你不明白 chef cookbook solo 等一大堆名词, 你就无法愉快的用 VagrantUp 玩耍, 比如你想在 dev 环境安装 postgresql, 你就要懂得 solo 什么的脚本, 否则, 一个 vagrant destroy命令, 你搭建的环境就灰飞烟灭了, 你无法用 vagrant up 一个命令重建起来, 那么你还是在一个原型里编程, 一切都还是那么low. 
