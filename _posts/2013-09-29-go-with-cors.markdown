@@ -179,7 +179,7 @@ func (cors *Cors) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 #### gocors 
 
-[gocors](github.com/semicircle/gocors) 是一个简单的CORS的工具集
+[gocors](http://github.com/semicircle/gocors) 是我实现的一个简单的CORS的工具集
 
 用法是：
 
