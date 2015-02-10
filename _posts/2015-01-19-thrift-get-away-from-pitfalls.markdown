@@ -248,6 +248,11 @@ typedef void(^UIUpdatingBlock)();
 
 (写到这里, 我才意识到, 我从来没试过在 Main Thread 里调用 service obejct, 我猜 iOS 会狂飙异常吧)
 
+*2015.2.9补充:*
+
+1. (经别人提醒想到)在更新 UI 时, 操作的指针应该是设置了 `__weak` 属性的, 否则, 在调用过程中如果 UI 已被退出了, 这里的 block 引用将导致其无法正确释放内存.
+2. dispatch_once 的部分还是在 UI Thread 上, 分配内存就有可能导致卡顿, 应该移动到其他位置.
+
 # 4. 性能
 
 由于, 我并没有机会公平的测试当 Thrift 流量大了以后, 服务器性能的占用情况.(*这里无法公平的原因是, 我自己用 go 语言配 Protobuf, 用 ruby 配 Thrift, 所以没有绝对公平的比较环境*)

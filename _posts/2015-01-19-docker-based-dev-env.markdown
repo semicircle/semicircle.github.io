@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "基于 Docker 的(轮子组装)开发环境(有待完善)"
+title: "基于 Docker 的(轮子组装)开发环境(beta)"
 date: 2015-01-19 07:53:25 +0000
 comments: true
 categories: docker

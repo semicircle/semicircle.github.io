@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "基于AST原理的RPC(此坑待填)"
+title:  "基于AST原理的RPC(此坑待填,民科慎入)"
 date:   2015-02-03 15:54:42
-categories: programming
+categories: programming 民科
 ---
 
 最近不忙, 刚填了一个 Docker 的小坑, 这里再挖一个.
@@ -22,4 +22,11 @@ categories: programming
 2. LINQ 的 expression, 原理上近似, 但 LINQ 写得是类似 SQL 的东西, 注定了 LINQ 的表达能力会受限.
 
 今天我也没少喝咖啡~.
+
+---
+2015.2.10
+
+进展: 动态将程序/数据分割不难, 难的是如何合理的分组, 如何监测程序运行状况, 根据监测所发现的热点分组.
+
+感受: 怎么感觉整篇东西目前都带有浓浓的民科风...
 
