@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "让panic再飞一会儿"
+title: "Go语言错误处理技巧: 让panic再飞一会儿"
 date: 2013-09-24 12:36
 comments: true
 categories: golang
